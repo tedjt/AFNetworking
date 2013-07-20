@@ -48,6 +48,11 @@ static char kAFImageRequestOperationObjectKey;
 
 @implementation UIImageView (AFNetworking)
 
+
++ (NSInteger) maxConcurrentOperations {
+    return NSOperationQueueDefaultMaxConcurrentOperationCount;
+}
+
 - (AFHTTPRequestOperation *)af_imageRequestOperation {
     return (AFHTTPRequestOperation *)objc_getAssociatedObject(self, &kAFImageRequestOperationObjectKey);
 }
@@ -61,7 +66,7 @@ static char kAFImageRequestOperationObjectKey;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _af_imageRequestOperationQueue = [[NSOperationQueue alloc] init];
-        [_af_imageRequestOperationQueue setMaxConcurrentOperationCount:NSOperationQueueDefaultMaxConcurrentOperationCount];
+        [_af_imageRequestOperationQueue setMaxConcurrentOperationCount:[self maxConcurrentOperations]];
     });
 
     return _af_imageRequestOperationQueue;

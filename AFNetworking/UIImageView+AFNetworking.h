@@ -73,6 +73,8 @@
  */
 - (void)cancelImageRequestOperation;
 
++ (NSInteger) maxConcurrentOperations;
+
 @end
 
 #endif
