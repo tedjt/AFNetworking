@@ -48,9 +48,8 @@ static char kAFImageRequestOperationObjectKey;
 
 @implementation UIImageView (AFNetworking)
 
-
 + (NSInteger) maxConcurrentOperations {
-    return NSOperationQueueDefaultMaxConcurrentOperationCount;
+    return 1;//NSOperationQueueDefaultMaxConcurrentOperationCount;
 }
 
 - (AFHTTPRequestOperation *)af_imageRequestOperation {
@@ -77,11 +76,15 @@ static char kAFImageRequestOperationObjectKey;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
         _af_imageCache = [[AFImageCache alloc] init];
+        _af_imageCache.countLimit = 2;
     });
 
     return _af_imageCache;
 }
 
++ (void)clearAFImageCache {
+    [[self af_sharedImageCache] removeAllObjects];
+}
 #pragma mark -
 
 - (void)setImageWithURL:(NSURL *)url {

@@ -75,6 +75,8 @@
 
 + (NSInteger) maxConcurrentOperations;
 
++ (void) clearAFImageCache;
+
 @end
 
 #endif
